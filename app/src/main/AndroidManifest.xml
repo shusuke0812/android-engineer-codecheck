@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.androidengineercodecheck">
 
-    // ネットワーク通信のパーミッションを設定
-    <users-permission android:name="android.permission.INTERNET" />
+    <!-- ネットワーク通信のパーミッションを設定 -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
