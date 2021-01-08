@@ -1,7 +1,8 @@
-package com.example.androidengineercodecheck
+package com.example.androidengineercodecheck.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.androidengineercodecheck.R
 
 class GitHubRepositorySearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
