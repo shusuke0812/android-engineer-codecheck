@@ -1,4 +1,4 @@
-package com.example.androidengineercodecheck.View.GitHubRepository.Fragment
+package com.example.androidengineercodecheck
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,6 +14,6 @@ class GitHubRepositoryListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_git_hub_repository_list, container, false)
+        return inflater.inflate(R.layout.fragment_github_repository_list, container, false)
     }
 }
