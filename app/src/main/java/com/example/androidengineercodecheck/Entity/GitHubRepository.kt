@@ -2,33 +2,39 @@ package com.example.androidengineercodecheck.Entity
 
 import com.squareup.moshi.Json
 
+/**
+ *  GitHub Search APIのレスポンス型
+ */
 data class GitHubRepository (
-    var items: List<Item>
+    val items: List<Item>
 )
 data class Item (
     // リポジトリ名
     @Json(name = "full_name")
-    var name: String,
+    val name: String,
     // リポジトリ言語
     @Json(name = "language")
-    var language: String,
+    val language: String,
     // スター数
     @Json(name = "stargazers_count")
-    var starNumber: Int,
+    val starNumber: Int,
     // ウォッチ数
     @Json(name = "watchers_count")
-    var watchNumber: Int,
+    val watchNumber: Int,
     // フォーク数
     @Json(name = "forks_count")
-    var forkNumber: Int,
+    val forkNumber: Int,
     // イシュー数
-    @Json(name = "open_issues_ccount")
-    var isueNumber: Int,
+    @Json(name = "open_issues_count")
+    val isueNumber: Int,
     // オーナー情報
-    var owner: Owner
+    val owner: Owner
 )
 data class Owner (
+    // 名前
+    @Json(name = "login")
+    val name: String,
     // アバター画像URL
     @Json(name = "avatar_url")
-    var avatarImage: String
+    val avatarImage: String
 )
