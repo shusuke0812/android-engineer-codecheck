@@ -17,19 +17,19 @@ import jp.co.yumemi.android.code_check.databinding.FragmentSearchRepositoryBindi
 /**
  * GitHubのリポジトリ検索結果を一覧表示する Fragment
  */
-class SearchRepositoryFragment: Fragment(R.layout.fragment_search_repository) {
+class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentSearchRepositoryBinding.bind(view)
-        val viewModel = OneViewModel(context!!)
+        val viewModel = SearchRepositoryViewModel(context!!)
 
         val layoutManager= LinearLayoutManager(context!!)
         val dividerItemDecoration = DividerItemDecoration(context!!, layoutManager.orientation)
 
         val adapter = CustomAdapter(object: CustomAdapter.OnItemClickListener {
-            override fun itemClick(item: item) {
+            override fun itemClick(item: Item) {
                 gotoRepositoryFragment(item)
             }
         })
@@ -53,29 +53,29 @@ class SearchRepositoryFragment: Fragment(R.layout.fragment_search_repository) {
         }
     }
 
-    fun gotoRepositoryFragment(item: item) {
+    fun gotoRepositoryFragment(item: Item) {
         val action = SearchRepositoryFragmentDirections.actionRepositoriesFragmentToRepositoryFragment(item = item)
         findNavController().navigate(action)
     }
 }
 
-val diffUtil = object: DiffUtil.ItemCallback<item>() {
+val diffUtil = object: DiffUtil.ItemCallback<Item>() {
 
-    override fun areItemsTheSame(oldItem: item, newItem: item): Boolean {
+    override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
         return oldItem.name == newItem.name
     }
 
-    override fun areContentsTheSame(oldItem: item, newItem: item): Boolean {
+    override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
         return oldItem == newItem
     }
 }
 
-class CustomAdapter(private val itemClickListener: OnItemClickListener, ) : ListAdapter<item, CustomAdapter.ViewHolder>(diffUtil) {
+class CustomAdapter(private val itemClickListener: OnItemClickListener, ) : ListAdapter<Item, CustomAdapter.ViewHolder>(diffUtil) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     interface OnItemClickListener {
-    	fun itemClick(item: item)
+    	fun itemClick(item: Item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : ViewHolder {
