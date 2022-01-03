@@ -29,8 +29,8 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
         val dividerItemDecoration = DividerItemDecoration(context!!, layoutManager.orientation)
 
         val adapter = CustomAdapter(object: CustomAdapter.OnItemClickListener {
-            override fun itemClick(item: Item) {
-                gotoRepositoryFragment(item)
+            override fun itemClick(repository: Repository) {
+                gotoRepositoryFragment(repository)
             }
         })
 
@@ -53,29 +53,29 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
         }
     }
 
-    fun gotoRepositoryFragment(item: Item) {
-        val action = SearchRepositoryFragmentDirections.actionRepositoriesFragmentToRepositoryFragment(item = item)
+    fun gotoRepositoryFragment(repository: Repository) {
+        val action = SearchRepositoryFragmentDirections.actionRepositoriesFragmentToRepositoryFragment(repository = repository)
         findNavController().navigate(action)
     }
 }
 
-val diffUtil = object: DiffUtil.ItemCallback<Item>() {
+val diffUtil = object: DiffUtil.ItemCallback<Repository>() {
 
-    override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
-        return oldItem.name == newItem.name
+    override fun areItemsTheSame(oldRepository: Repository, newRepository: Repository): Boolean {
+        return oldRepository.name == newRepository.name
     }
 
-    override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-        return oldItem == newItem
+    override fun areContentsTheSame(oldRepository: Repository, newRepository: Repository): Boolean {
+        return oldRepository == newRepository
     }
 }
 
-class CustomAdapter(private val itemClickListener: OnItemClickListener, ) : ListAdapter<Item, CustomAdapter.ViewHolder>(diffUtil) {
+class CustomAdapter(private val itemClickListener: OnItemClickListener, ) : ListAdapter<Repository, CustomAdapter.ViewHolder>(diffUtil) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     interface OnItemClickListener {
-    	fun itemClick(item: Item)
+    	fun itemClick(repository: Repository)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : ViewHolder {
