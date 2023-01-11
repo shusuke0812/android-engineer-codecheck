@@ -42,9 +42,9 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
         binding.searchInputText.setOnEditorActionListener { editText, action, _ ->
             if (action == EditorInfo.IME_ACTION_SEARCH) {
                 editText.text.toString().let {
-                        viewModel.searchResults(it).apply {
-                            adapter.submitList(this)
-                        }
+                    viewModel.searchResults(it).apply {
+                        adapter.submitList(this)
+                    }
                 }
                 return@setOnEditorActionListener true
             }
