@@ -4,6 +4,7 @@
 package jp.co.yumemi.android.code_check
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +43,9 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
         binding.searchInputText.setOnEditorActionListener { editText, action, _ ->
             if (action == EditorInfo.IME_ACTION_SEARCH) {
                 editText.text.toString().let {
+                    Log.d("debug", "呼ばれたよ1")
                     viewModel.searchResults(it).apply {
+                        Log.d("debug", "呼ばれたよ3")
                         adapter.submitList(this)
                     }
                 }

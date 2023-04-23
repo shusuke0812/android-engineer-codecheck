@@ -4,6 +4,7 @@
 package jp.co.yumemi.android.code_check
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -27,6 +28,7 @@ class SearchRepositoryViewModel(
     // 検索結果
     fun searchResults(inputText: String): List<Repository> = runBlocking {
         val client = HttpClient(Android)
+        Log.d("debug", "呼ばれたよ2")
 
         return@runBlocking GlobalScope.async {
             val response: HttpResponse = client?.get("https://api.github.com/search/repositories") {
