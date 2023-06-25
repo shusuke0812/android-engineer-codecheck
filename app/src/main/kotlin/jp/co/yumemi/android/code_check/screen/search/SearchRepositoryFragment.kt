@@ -1,7 +1,7 @@
 /*
  * Copyright © 2021 YUMEMI Inc. All rights reserved.
  */
-package jp.co.yumemi.android.code_check
+package jp.co.yumemi.android.code_check.screen.search
 
 import android.os.Bundle
 import android.util.Log
@@ -14,7 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
+import jp.co.yumemi.android.code_check.R
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchRepositoryBinding
+import jp.co.yumemi.android.code_check.model.Repository
 
 /**
  * GitHubのリポジトリ検索結果を一覧表示する Fragment
