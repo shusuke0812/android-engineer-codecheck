@@ -31,10 +31,11 @@ class RepositoryDetailFragment : Fragment(R.layout.fragment_repository_detail) {
         _binding = FragmentRepositoryDetailBinding.bind(view)
 
         var repository = args.repository
+        val languageWithPrefix = context?.getString(R.string.written_language, repository.language)
 
         binding.ownerIconView.load(repository.ownerIconUrl)
         binding.nameView.text = repository.name;
-        binding.languageView.text = repository.language;
+        binding.languageView.text = languageWithPrefix;
         binding.starsView.text = "${repository.stargazersCount} stars";
         binding.watchersView.text = "${repository.watchersCount} watchers";
         binding.forksView.text = "${repository.forksCount} forks";

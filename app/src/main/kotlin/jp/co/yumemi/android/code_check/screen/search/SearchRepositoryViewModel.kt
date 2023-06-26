@@ -23,14 +23,11 @@ import java.util.*
 /**
  * GitHubのリポジトリ検索結果を保持する ViewModel
  */
-class SearchRepositoryViewModel(
-    val context: Context
-) : ViewModel() {
+class SearchRepositoryViewModel() : ViewModel() {
 
     // 検索結果
     fun searchResults(inputText: String): List<Repository> = runBlocking {
         val client = HttpClient(Android)
-        Log.d("debug", "呼ばれたよ2")
 
         return@runBlocking GlobalScope.async {
             val response: HttpResponse = client?.get("https://api.github.com/search/repositories") {
@@ -59,7 +56,7 @@ class SearchRepositoryViewModel(
                     Repository(
                         name = name,
                         ownerIconUrl = ownerIconUrl,
-                        language = context.getString(R.string.written_language, language),
+                        language = language,
                         stargazersCount = stargazersCount,
                         watchersCount = watchersCount,
                         forksCount = forksCount,
