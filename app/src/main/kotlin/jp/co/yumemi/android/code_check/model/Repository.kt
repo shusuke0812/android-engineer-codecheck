@@ -5,6 +5,17 @@ import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+data class Items(
+    @Json(name = "total_count")
+    val totalCount: Int,
+
+    @Json(name = "incomplete_results")
+    val incompleteResults: Boolean,
+
+    @Json(name = "items")
+    val items: List<Repository>
+) : Parcelable
+@Parcelize
 data class Repository(
     @Json(name = "full_name")
     val fullName: String,
