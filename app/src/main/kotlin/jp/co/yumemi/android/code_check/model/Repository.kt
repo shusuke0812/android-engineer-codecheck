@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Items(
+data class SearchResponse(
     @Json(name = "total_count")
     val totalCount: Int,
 

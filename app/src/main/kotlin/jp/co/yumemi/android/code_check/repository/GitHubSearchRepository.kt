@@ -2,7 +2,7 @@ package jp.co.yumemi.android.code_check.repository
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import jp.co.yumemi.android.code_check.model.Items
+import jp.co.yumemi.android.code_check.model.SearchResponse
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -15,7 +15,7 @@ interface GitHubRepositoryInterface {
     @GET("search/repositories")
     suspend fun getRepositories(
         @Query("q") q: String
-    ) : Response<Items>
+    ) : Response<SearchResponse>
 }
 
 class GitHubSearchRepository {
@@ -30,7 +30,7 @@ class GitHubSearchRepository {
         retrofit.create(GitHubRepositoryInterface::class.java)
     }
 
-    suspend fun getRepositories(inputText: String): Response<Items> {
+    suspend fun getRepositories(inputText: String): Response<SearchResponse> {
         return _api.getRepositories(q = inputText)
     }
 }
