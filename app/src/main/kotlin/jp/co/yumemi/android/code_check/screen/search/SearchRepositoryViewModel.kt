@@ -3,72 +3,47 @@
  */
 package jp.co.yumemi.android.code_check.screen.search
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.engine.android.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import jp.co.yumemi.android.code_check.R
-import jp.co.yumemi.android.code_check.screen.TopActivity.Companion.lastSearchDate
+import androidx.lifecycle.viewModelScope
+import io.ktor.utils.io.errors.IOException
 import jp.co.yumemi.android.code_check.model.Repository
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
-import org.json.JSONObject
+import jp.co.yumemi.android.code_check.repository.GitHubSearchRepository
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import java.util.*
+
+interface SearchRepositoryViewModelDelegate {
+    fun didSuccessSearchRepositories(items: List<Repository>?)
+    fun didFailSearchRepositories()
+}
 
 /**
  * GitHubのリポジトリ検索結果を保持する ViewModel
  */
-class SearchRepositoryViewModel() : ViewModel() {
-
-    // 検索結果
-    fun searchResults(inputText: String): List<Repository> = runBlocking {
-        val client = HttpClient(Android)
-
-        return@runBlocking GlobalScope.async {
-            val response: HttpResponse? = client?.get("https://api.github.com/search/repositories") {
-                header("Accept", "application/vnd.github.v3+json")
-                parameter("q", inputText)
+class SearchRepositoryViewModel(
+    var delegate: SearchRepositoryViewModelDelegate? = null,
+    var lastSearchDate: Date = Date()
+) : ViewModel() {
+    fun searchRepositories(inputText: String) {
+        val repository = GitHubSearchRepository()
+        viewModelScope.launch {
+            try {
+                val response = repository.getRepositories(inputText = inputText)
+                if (response.isSuccessful) {
+                    val items = response.body()?.items
+                    delegate?.didSuccessSearchRepositories(items = items)
+                    lastSearchDate = Date()
+                    Log.d("debug", "items=$items")
+                } else {
+                    delegate?.didFailSearchRepositories()
+                }
+            } catch (e: IOException) {
+                delegate?.didFailSearchRepositories()
+            } catch (e: HttpException) {
+                delegate?.didFailSearchRepositories()
             }
-
-            val jsonBody = JSONObject(response?.receive<String>())
-
-            val jsonItems = jsonBody.optJSONArray("items")!!
-
-            val items = mutableListOf<Repository>()
-
-            // アイテムの個数分ループする
-            for (i in 0 until jsonItems.length()) {
-                val jsonItem = jsonItems.optJSONObject(i)!!
-                val name = jsonItem.optString("full_name")
-                val ownerIconUrl = jsonItem.optJSONObject("owner")!!.optString("avatar_url")
-                val language = jsonItem.optString("language")
-                val stargazersCount = jsonItem.optLong("stargazers_count")
-                val watchersCount = jsonItem.optLong("watchers_count")
-                val forksCount = jsonItem.optLong("forks_conut")
-                val openIssuesCount = jsonItem.optLong("open_issues_count")
-
-                items.add(
-                    Repository(
-                        name = name,
-                        ownerIconUrl = ownerIconUrl,
-                        language = language,
-                        stargazersCount = stargazersCount,
-                        watchersCount = watchersCount,
-                        forksCount = forksCount,
-                        openIssuesCount = openIssuesCount
-                    )
-                )
-            }
-
-            lastSearchDate = Date()
-
-            return@async items.toList()
-        }.await()
+        }
     }
 }
 
