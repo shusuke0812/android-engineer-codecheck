@@ -4,6 +4,10 @@ import android.os.Parcelable
 import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 
+/**
+ * API Doc: https://docs.github.com/ja/rest/search/search?apiVersion=2022-11-28#search-repositories
+ * 各プロパティの型（null or not）は API Doc の応答スキーマを参照
+ * */
 @Parcelize
 data class SearchResponse(
     @Json(name = "total_count")
@@ -21,10 +25,10 @@ data class Repository(
     val fullName: String,
 
     @Json(name = "owner")
-    val owner: Owner,
+    val owner: Owner?,
 
     @Json(name = "language")
-    val language: String,
+    val language: String?,
 
     @Json(name = "stargazers_count")
     val stargazersCount: Long,
