@@ -10,8 +10,11 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
 
+/**
+ * API Doc: https://docs.github.com/ja/rest/search/search?apiVersion=2022-11-28#search-repositories
+ * */
 interface GitHubRepositoryInterface {
-    @Headers("Accept", "application/vnd.github.v3+json")
+    @Headers("Accept: application/vnd.github.v3+json")
     @GET("search/repositories")
     suspend fun getRepositories(
         @Query("q") q: String
