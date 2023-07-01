@@ -3,6 +3,8 @@ package jp.co.yumemi.android.code_check.repository
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import jp.co.yumemi.android.code_check.model.SearchResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -22,7 +24,7 @@ interface GitHubRepositoryInterface {
 }
 
 class GitHubSearchRepository {
-    private val _api: GitHubRepositoryInterface by lazy {
+    private val api: GitHubRepositoryInterface by lazy {
         val moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
@@ -34,6 +36,8 @@ class GitHubSearchRepository {
     }
 
     suspend fun getRepositories(inputText: String): Response<SearchResponse> {
-        return _api.getRepositories(q = inputText)
+        return withContext(Dispatchers.IO) {
+            return@withContext api.getRepositories(q = inputText)
+        }
     }
 }
