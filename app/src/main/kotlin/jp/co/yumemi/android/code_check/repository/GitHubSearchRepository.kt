@@ -2,6 +2,7 @@ package jp.co.yumemi.android.code_check.repository
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import jp.co.yumemi.android.code_check.constant.Constant
 import jp.co.yumemi.android.code_check.model.SearchResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -29,7 +30,7 @@ class GitHubSearchRepository {
             .add(KotlinJsonAdapterFactory())
             .build()
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.github.com")
+            .baseUrl(Constant.GITHUB_BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
         retrofit.create(GitHubRepositoryInterface::class.java)
