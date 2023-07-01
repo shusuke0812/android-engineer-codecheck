@@ -23,10 +23,10 @@ interface SearchRepositoryViewModelDelegate {
  */
 class SearchRepositoryViewModel(
     var delegate: SearchRepositoryViewModelDelegate? = null,
-    var lastSearchDate: Date = Date()
+    var lastSearchDate: Date = Date(),
+    private val repository: GitHubSearchRepository = GitHubSearchRepository()
 ) : ViewModel() {
     fun searchRepositories(inputText: String) {
-        val repository = GitHubSearchRepository()
         viewModelScope.launch {
             try {
                 val response = repository.getRepositories(inputText = inputText)
