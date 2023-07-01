@@ -45,7 +45,7 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
         binding.searchInputText.setOnEditorActionListener { editText, action, _ ->
             if (action == EditorInfo.IME_ACTION_SEARCH) {
                 editText.text.toString().let {
-                    viewModel.searchResults(it).apply {
+                    viewModel.searchRepositories(it).apply {
                         adapter.submitList(this)
                     }
                 }
@@ -70,7 +70,7 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
 val diffUtil = object: DiffUtil.ItemCallback<Repository>() {
 
     override fun areItemsTheSame(oldRepository: Repository, newRepository: Repository): Boolean {
-        return oldRepository.name == newRepository.name
+        return oldRepository.fullName == newRepository.fullName
     }
 
     override fun areContentsTheSame(oldRepository: Repository, newRepository: Repository): Boolean {
