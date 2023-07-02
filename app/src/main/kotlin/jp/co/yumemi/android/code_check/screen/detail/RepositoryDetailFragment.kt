@@ -25,7 +25,6 @@ class RepositoryDetailFragment : Fragment(R.layout.fragment_repository_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         Log.d("検索した日時", lastSearchDate.toString())
 
         _binding = FragmentRepositoryDetailBinding.bind(view)
@@ -33,8 +32,8 @@ class RepositoryDetailFragment : Fragment(R.layout.fragment_repository_detail) {
         var repository = args.repository
         val languageWithPrefix = context?.getString(R.string.written_language, repository.language)
 
-        binding.ownerIconView.load(repository.ownerIconUrl)
-        binding.nameView.text = repository.name;
+        binding.ownerIconView.load(repository.owner?.avatarUrl)
+        binding.nameView.text = repository.fullName;
         binding.languageView.text = languageWithPrefix;
         binding.starsView.text = "${repository.stargazersCount} stars";
         binding.watchersView.text = "${repository.watchersCount} watchers";

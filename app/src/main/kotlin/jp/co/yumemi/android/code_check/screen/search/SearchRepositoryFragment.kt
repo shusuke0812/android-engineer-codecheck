@@ -21,33 +21,33 @@ import jp.co.yumemi.android.code_check.model.Repository
 /**
  * GitHubのリポジトリ検索結果を一覧表示する Fragment
  */
-class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
+class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository), SearchRepositoryViewModelDelegate {
 
     private var _binding: FragmentSearchRepositoryBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: SearchRepositoryViewModel by viewModels()
+    private lateinit var adapter: CustomAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         _binding = FragmentSearchRepositoryBinding.bind(view)
+        viewModel.delegate = this
 
         val layoutManager= LinearLayoutManager(context!!)
         val dividerItemDecoration = DividerItemDecoration(context!!, layoutManager.orientation)
 
-        val adapter = CustomAdapter(object: CustomAdapter.OnItemClickListener {
+        adapter = CustomAdapter(object: CustomAdapter.OnItemClickListener {
             override fun itemClick(repository: Repository) {
-                gotoRepositoryFragment(repository)
+                gotoRepositoryDetailFragment(repository)
             }
         })
 
         binding.searchInputText.setOnEditorActionListener { editText, action, _ ->
             if (action == EditorInfo.IME_ACTION_SEARCH) {
                 editText.text.toString().let {
-                    viewModel.searchResults(it).apply {
-                        adapter.submitList(this)
-                    }
+                    viewModel.searchRepositories(inputText = it)
                 }
                 return@setOnEditorActionListener true
             }
@@ -61,16 +61,25 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
         }
     }
 
-    fun gotoRepositoryFragment(repository: Repository) {
+    private fun gotoRepositoryDetailFragment(repository: Repository) {
         val action = SearchRepositoryFragmentDirections.actionRepositoriesFragmentToRepositoryFragment(repository = repository)
         findNavController().navigate(action)
     }
+
+    //region SearchRepositoryViewModelDelegate
+    override fun didSuccessSearchRepositories(items: List<Repository>?) {
+        adapter.submitList(items)
+    }
+    override fun didFailSearchRepositories() {
+        // do nothing
+    }
+    //endregion
 }
 
 val diffUtil = object: DiffUtil.ItemCallback<Repository>() {
 
     override fun areItemsTheSame(oldRepository: Repository, newRepository: Repository): Boolean {
-        return oldRepository.name == newRepository.name
+        return oldRepository.fullName == newRepository.fullName
     }
 
     override fun areContentsTheSame(oldRepository: Repository, newRepository: Repository): Boolean {
@@ -93,7 +102,7 @@ class CustomAdapter(private val itemClickListener: OnItemClickListener, ) : List
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     	val item = getItem(position)
-        (holder.itemView.findViewById<View>(R.id.repositoryNameView) as TextView).text = item.name
+        (holder.itemView.findViewById<View>(R.id.repositoryNameView) as TextView).text = item.fullName
 
     	holder.itemView.setOnClickListener {
      		itemClickListener.itemClick(item)
