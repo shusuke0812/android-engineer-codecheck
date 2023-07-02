@@ -27,7 +27,7 @@ class RepositoryDetailFragment : Fragment(R.layout.fragment_repository_detail) {
 
         binding = FragmentRepositoryDetailBinding.bind(view)
 
-        var repository = args.repository
+        val repository = args.repository
         val languageWithPrefix = context?.getString(R.string.written_language, repository.language)
 
         binding.ownerIconView.load(repository.owner?.avatarUrl)
