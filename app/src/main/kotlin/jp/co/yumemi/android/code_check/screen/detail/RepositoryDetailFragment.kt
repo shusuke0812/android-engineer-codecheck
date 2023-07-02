@@ -19,15 +19,13 @@ import jp.co.yumemi.android.code_check.screen.search.SearchRepositoryViewModel
 class RepositoryDetailFragment : Fragment(R.layout.fragment_repository_detail) {
 
     private val args: RepositoryDetailFragmentArgs by navArgs()
-
-    private var _binding: FragmentRepositoryDetailBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentRepositoryDetailBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("debug", "lastSearchDate=" + SearchRepositoryViewModel.lastSearchDate)
 
-        _binding = FragmentRepositoryDetailBinding.bind(view)
+        binding = FragmentRepositoryDetailBinding.bind(view)
 
         var repository = args.repository
         val languageWithPrefix = context?.getString(R.string.written_language, repository.language)
