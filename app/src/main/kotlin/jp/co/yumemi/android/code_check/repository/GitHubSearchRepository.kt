@@ -1,9 +1,9 @@
 package jp.co.yumemi.android.code_check.repository
 
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import jp.co.yumemi.android.code_check.constant.Constant
 import jp.co.yumemi.android.code_check.model.SearchResponse
+import jp.co.yumemi.android.code_check.network.GitHubInterface
+import jp.co.yumemi.android.code_check.network.apiServiceFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
@@ -16,7 +16,7 @@ import retrofit2.http.Query
 /**
  * API Doc: https://docs.github.com/ja/rest/search/search?apiVersion=2022-11-28#search-repositories
  * */
-interface GitHubSearchRepositoryInterface {
+interface GitHubSearchRepositoryInterface : GitHubInterface {
     @Headers("Accept: application/vnd.github.v3+json")
     @GET("search/repositories")
     suspend fun getRepositories(
@@ -25,20 +25,11 @@ interface GitHubSearchRepositoryInterface {
 }
 
 class GitHubSearchRepository {
-    private val api: GitHubSearchRepositoryInterface by lazy {
-        val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constant.GITHUB_BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .build()
-        retrofit.create(GitHubSearchRepositoryInterface::class.java)
-    }
+    private val _api = apiServiceFactory<GitHubSearchRepositoryInterface>(baseUrl = Constant.GITHUB_BASE_URL)
 
     suspend fun getRepositories(inputText: String): Response<SearchResponse> {
         return withContext(Dispatchers.IO) {
-            return@withContext api.getRepositories(q = inputText)
+            return@withContext _api.getRepositories(q = inputText)
         }
     }
 }
