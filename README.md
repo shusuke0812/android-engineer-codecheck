@@ -25,6 +25,7 @@
 - [Google I/O](https://io.google/2022/)
 - [Android Dev Summit](https://developer.android.com/events/dev-summit)
 - [DroidKaigi](https://droidkaigi.jp/)
+- [Kotlinアンチパターン](https://www.slideshare.net/RecruitLifestyle/kotlin-87339759)
 
 <br>
 
