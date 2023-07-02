@@ -16,7 +16,7 @@ import retrofit2.http.Query
 /**
  * API Doc: https://docs.github.com/ja/rest/search/search?apiVersion=2022-11-28#search-repositories
  * */
-interface GitHubRepositoryInterface {
+interface GitHubSearchRepositoryInterface {
     @Headers("Accept: application/vnd.github.v3+json")
     @GET("search/repositories")
     suspend fun getRepositories(
@@ -25,7 +25,7 @@ interface GitHubRepositoryInterface {
 }
 
 class GitHubSearchRepository {
-    private val api: GitHubRepositoryInterface by lazy {
+    private val api: GitHubSearchRepositoryInterface by lazy {
         val moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
@@ -33,7 +33,7 @@ class GitHubSearchRepository {
             .baseUrl(Constant.GITHUB_BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
-        retrofit.create(GitHubRepositoryInterface::class.java)
+        retrofit.create(GitHubSearchRepositoryInterface::class.java)
     }
 
     suspend fun getRepositories(inputText: String): Response<SearchResponse> {
