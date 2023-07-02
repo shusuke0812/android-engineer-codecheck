@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import io.ktor.utils.io.errors.IOException
 import jp.co.yumemi.android.code_check.model.Repository
 import jp.co.yumemi.android.code_check.repository.GitHubSearchRepository
+import jp.co.yumemi.android.code_check.screen.TopActivity.Companion.lastSearchDate
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.util.*
@@ -23,7 +24,6 @@ interface SearchRepositoryViewModelDelegate {
  */
 class SearchRepositoryViewModel(
     var delegate: SearchRepositoryViewModelDelegate? = null,
-    var lastSearchDate: Date = Date(),
     private val repository: GitHubSearchRepository = GitHubSearchRepository()
 ) : ViewModel() {
     fun searchRepositories(inputText: String) {
