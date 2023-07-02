@@ -33,8 +33,8 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository), 
         binding = FragmentSearchRepositoryBinding.bind(view)
         viewModel.delegate = this
 
-        val layoutManager= LinearLayoutManager(context!!)
-        val dividerItemDecoration = DividerItemDecoration(context!!, layoutManager.orientation)
+        val layoutManager= LinearLayoutManager(requireContext())
+        val dividerItemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
 
         adapter = CustomAdapter(object: CustomAdapter.OnItemClickListener {
             override fun itemClick(repository: Repository) {
