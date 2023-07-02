@@ -74,6 +74,7 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository), 
     //endregion
 }
 
+// TODO: この行以降に記載されたRecyclerViewに関する設定コードは別ファイルに切り出したい( search/adapterディレクトリ配下 )
 val diffUtil = object: DiffUtil.ItemCallback<Repository>() {
 
     override fun areItemsTheSame(oldRepository: Repository, newRepository: Repository): Boolean {
