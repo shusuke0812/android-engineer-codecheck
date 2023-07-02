@@ -23,16 +23,14 @@ import jp.co.yumemi.android.code_check.model.Repository
  */
 class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository), SearchRepositoryViewModelDelegate {
 
-    private var _binding: FragmentSearchRepositoryBinding? = null
-    private val binding get() = _binding!!
-
     private val viewModel: SearchRepositoryViewModel by viewModels()
     private lateinit var adapter: CustomAdapter
+    private lateinit var binding: FragmentSearchRepositoryBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _binding = FragmentSearchRepositoryBinding.bind(view)
+        binding = FragmentSearchRepositoryBinding.bind(view)
         viewModel.delegate = this
 
         val layoutManager= LinearLayoutManager(context!!)
