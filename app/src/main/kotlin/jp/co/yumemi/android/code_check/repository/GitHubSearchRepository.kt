@@ -3,7 +3,7 @@ package jp.co.yumemi.android.code_check.repository
 import jp.co.yumemi.android.code_check.constant.Constant
 import jp.co.yumemi.android.code_check.model.SearchResponse
 import jp.co.yumemi.android.code_check.network.GitHubInterface
-import jp.co.yumemi.android.code_check.network.apiServiceFactory
+import jp.co.yumemi.android.code_check.network.GitHubAPIService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
@@ -23,7 +23,7 @@ interface GitHubSearchRepositoryInterface : GitHubInterface {
 }
 
 class GitHubSearchRepository {
-    private val _api = apiServiceFactory<GitHubSearchRepositoryInterface>(baseUrl = Constant.GITHUB_BASE_URL)
+    private val _api = GitHubAPIService.create<GitHubSearchRepositoryInterface>(baseUrl = Constant.GITHUB_BASE_URL)
 
     suspend fun getRepositories(inputText: String): Response<SearchResponse> {
         return withContext(Dispatchers.IO) {
