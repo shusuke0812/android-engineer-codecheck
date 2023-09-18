@@ -25,6 +25,7 @@
     - UI
       - UIとオペレーティングシステムの処理、ContextなどAndroidフレームワークに依存する唯一のクラス
       - UI Element + UI State
+      - UIはViewModelに保持されたUiStateのみにアクセスできるようにし、ViewModelの処理を制限する（処理の変更、意図しない利用を防ぐ）
     - Data: ビジネスロジック処理、データの種類毎にRepositoryクラスを作成
     - Domain: 複雑なビジネスロジック処理、複数のViewModelで再利用される単純なビジネスロジック処理、UseCaseクラスを作成
   - 単方向データフロー
