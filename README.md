@@ -19,6 +19,24 @@
   - 縦画面向きか横画面向けか
   - Android SDKバージョン（APIレベル）、MinimumSDKをどうするか
 
+## 学び
+- アーキテクチャ（[Developersガイド](https://developer.android.com/topic/architecture?hl=ja)）
+  - 関心の分離
+    - UI
+      - UIとオペレーティングシステムの処理、ContextなどAndroidフレームワークに依存する唯一のクラス
+      - UI Element + UI State
+    - Data: ビジネスロジック処理、データの種類毎にRepositoryクラスを作成
+    - Domain: 複雑なビジネスロジック処理、複数のViewModelで再利用される単純なビジネスロジック処理、UseCaseクラスを作成
+  - 単方向データフロー
+    - 状態は一方向、状態を変更するイベントは逆方向に流れる
+  - 推奨アーキテクチャ
+  - <img width=400 src="https://github.com/shusuke0812/android-engineer-codecheck/assets/33107697/3da22bbc-5d20-4103-9099-a30efddd673e">
+  - 依存関係の管理方法（下記２つがある）
+    - DI → Google公式のHiltが推奨
+    - サービスロケータパターン
+
+
+
 ## 参考文献
 - [Kotlin Doc ja](https://dogwood008.github.io/kotlin-web-site-ja/docs/reference/basic-syntax.html)
 - [Kotlin Doc en](https://kotlinlang.org/docs/home.html)
