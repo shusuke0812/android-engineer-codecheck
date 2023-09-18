@@ -4,7 +4,7 @@
 package jp.co.yumemi.android.code_check.screen.search
 
 import android.os.Bundle
-import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,16 +12,19 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.R
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchRepositoryBinding
 import jp.co.yumemi.android.code_check.model.Repository
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 /**
  * GitHubのリポジトリ検索結果を一覧表示する Fragment
  */
-class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository), SearchRepositoryViewModelDelegate {
+class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
 
     private val viewModel: SearchRepositoryViewModel by viewModels()
     private lateinit var adapter: CustomAdapter
@@ -31,7 +34,6 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository), 
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentSearchRepositoryBinding.bind(view)
-        viewModel.delegate = this
 
         val layoutManager= LinearLayoutManager(requireContext())
         val dividerItemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
@@ -42,8 +44,8 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository), 
             }
         })
 
-        binding.searchInputText.setOnEditorActionListener { editText, action, _ ->
-            if (action == EditorInfo.IME_ACTION_SEARCH) {
+        binding.searchInputText.setOnEditorActionListener { editText, action, event ->
+            if (action == EditorInfo.IME_ACTION_SEARCH || event.keyCode == KeyEvent.KEYCODE_ENTER) {
                 editText.text.toString().let {
                     viewModel.searchRepositories(inputText = it)
                 }
@@ -57,21 +59,20 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository), 
             it.addItemDecoration(dividerItemDecoration)
             it.adapter = adapter
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { uiState ->
+                if (!uiState.isLoading) {
+                    adapter.submitList(uiState.items)
+                }
+            }
+        }
     }
 
     private fun gotoRepositoryDetailFragment(repository: Repository) {
         val action = SearchRepositoryFragmentDirections.actionRepositoriesFragmentToRepositoryFragment(repository = repository)
         findNavController().navigate(action)
     }
-
-    //region SearchRepositoryViewModelDelegate
-    override fun didSuccessSearchRepositories(items: List<Repository>?) {
-        adapter.submitList(items)
-    }
-    override fun didFailSearchRepositories() {
-        // do nothing
-    }
-    //endregion
 }
 
 // TODO: この行以降に記載されたRecyclerViewに関する設定コードは別ファイルに切り出したい( search/adapterディレクトリ配下 )

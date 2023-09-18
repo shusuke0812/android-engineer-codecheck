@@ -23,8 +23,6 @@ class RepositoryDetailFragment : Fragment(R.layout.fragment_repository_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("debug", "lastSearchDate=" + SearchRepositoryViewModel.lastSearchDate)
-
         binding = FragmentRepositoryDetailBinding.bind(view)
 
         val repository = args.repository
