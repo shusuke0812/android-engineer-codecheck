@@ -1,5 +1,6 @@
 package jp.co.yumemi.android.code_check.usecase
 
+import android.util.Log
 import jp.co.yumemi.android.code_check.repository.GitHubGetRepository
 
 class WatchersCountUseCase(
