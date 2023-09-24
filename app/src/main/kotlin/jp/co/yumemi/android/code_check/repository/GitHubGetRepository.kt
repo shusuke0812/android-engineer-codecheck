@@ -30,7 +30,6 @@ class GitHubGetRepository {
     private val _api = GitHubAPIService.create<GitHubGetRepositoryInterface>(baseUrl = Constant.GITHUB_BASE_URL)
 
     suspend fun getRepository(ownerName: String, reposName: String): Response<GetRepository> {
-        Log.d("debug", "⑤")
         return withContext(Dispatchers.IO) {
             return@withContext _api.getRepositoryWatchersCount(ownerName, reposName)
         }
