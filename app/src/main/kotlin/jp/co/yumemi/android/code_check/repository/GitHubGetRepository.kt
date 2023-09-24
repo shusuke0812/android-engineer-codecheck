@@ -1,5 +1,6 @@
 package jp.co.yumemi.android.code_check.repository
 
+import android.util.Log
 import jp.co.yumemi.android.code_check.constant.Constant
 import jp.co.yumemi.android.code_check.model.GetRepository
 import jp.co.yumemi.android.code_check.network.GitHubAPIService
@@ -18,9 +19,9 @@ import retrofit2.http.Path
 // NOTE: full_name = /owner_name/repository_name
 interface GitHubGetRepositoryInterface : GitHubInterface {
     @Headers("Accept: application/vnd.github.v3+json")
-    @GET("/repos/{full_name}")
+    @GET("/repos/{owner_name}/{repos_name}")
     suspend fun getRepositoryWatchersCount(
-        @Path("full_name") fullName: String
+        @Path("owner_name") ownerName: String, @Path("repos_name") reposName: String
     ) : Response<GetRepository>
 
 }
@@ -28,9 +29,10 @@ interface GitHubGetRepositoryInterface : GitHubInterface {
 class GitHubGetRepository {
     private val _api = GitHubAPIService.create<GitHubGetRepositoryInterface>(baseUrl = Constant.GITHUB_BASE_URL)
 
-    suspend fun getRepository(fullName: String): Response<GetRepository> {
+    suspend fun getRepository(ownerName: String, reposName: String): Response<GetRepository> {
+        Log.d("debug", "⑤")
         return withContext(Dispatchers.IO) {
-            return@withContext _api.getRepositoryWatchersCount(fullName = fullName)
+            return@withContext _api.getRepositoryWatchersCount(ownerName, reposName)
         }
     }
 }
