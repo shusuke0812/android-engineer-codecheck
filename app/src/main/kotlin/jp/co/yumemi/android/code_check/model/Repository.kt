@@ -10,6 +10,9 @@ import kotlinx.parcelize.Parcelize
  * */
 @Parcelize
 data class Repository(
+    @Json(name = "name")
+    val name: String,
+
     @Json(name = "full_name")
     val fullName: String,
 

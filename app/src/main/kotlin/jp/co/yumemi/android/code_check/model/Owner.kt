@@ -10,6 +10,9 @@ import kotlinx.parcelize.Parcelize
  * */
 @Parcelize
 data class Owner(
+    @Json(name = "login")
+    val login: String,
+
     @Json(name = "avatar_url")
     val avatarUrl: String
 ) : Parcelable
