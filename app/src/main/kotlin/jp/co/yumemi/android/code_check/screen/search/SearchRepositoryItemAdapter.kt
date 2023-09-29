@@ -25,8 +25,11 @@ class SearchRepositoryItemAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        val textView = holder.itemView.findViewById<TextView>(R.id.repositoryNameView)
-        textView.text = item.fullName
+        val repositoryNameTextView = holder.itemView.findViewById<TextView>(R.id.repositoryName)
+        repositoryNameTextView.text = item.fullName
+
+        val repositoryDescriptionTextView = holder.itemView.findViewById<TextView>(R.id.repositoryDescription)
+        repositoryDescriptionTextView.text = item.description
 
         holder.itemView.setOnClickListener {
             itemClickListener.itemClick(item)
