@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Android Engineer CodeCheck</string>
     <string name="search_repository_toolbar_name">Home</string>
+    <string name="repository_detail_toolbar_name">Detail</string>
     <string name="searchInputText_hint">Search GitHub Repository</string>
     <string name="written_language">Written in %s</string>
 </resources>
