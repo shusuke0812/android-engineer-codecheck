@@ -35,5 +35,5 @@ data class Repository(
     val openIssuesCount: Long,
 
     @Json(name = "description")
-    val description: String
+    val description: String?
 ) : Parcelable

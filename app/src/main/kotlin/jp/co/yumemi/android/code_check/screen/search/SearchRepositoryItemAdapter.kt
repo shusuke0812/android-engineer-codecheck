@@ -29,7 +29,7 @@ class SearchRepositoryItemAdapter(
         repositoryNameTextView.text = item.fullName
 
         val repositoryDescriptionTextView = holder.itemView.findViewById<TextView>(R.id.repositoryDescription)
-        repositoryDescriptionTextView.text = item.description
+        repositoryDescriptionTextView.text = item.description ?: "Not found"
 
         holder.itemView.setOnClickListener {
             itemClickListener.itemClick(item)
