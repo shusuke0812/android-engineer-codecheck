@@ -35,7 +35,7 @@ class RepositoryDetailFragment : Fragment(R.layout.fragment_repository_detail) {
         binding.nameView.text = repository.fullName;
         binding.languageView.text = languageWithPrefix;
         binding.starsView.text = "${repository.stargazersCount} stars";
-        binding.watchersView.text = "${repository.watchersCount} watchers";
+        binding.watchersView.text = "-";
         binding.forksView.text = "${repository.forksCount} forks";
         binding.openIssuesView.text = "${repository.openIssuesCount} open issues";
 
