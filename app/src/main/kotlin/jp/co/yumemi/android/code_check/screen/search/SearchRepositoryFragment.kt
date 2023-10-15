@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.R
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchRepositoryBinding
 import jp.co.yumemi.android.code_check.model.Repository
+import jp.co.yumemi.android.code_check.utility.extension.closeKeyboard
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -47,7 +48,7 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
                 editText.text.toString().let {
                     viewModel.searchRepositories(inputText = it)
                 }
-                closeKeyboard()
+                this.closeKeyboard()
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
@@ -71,10 +72,5 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
     private fun gotoRepositoryDetailFragment(repository: Repository) {
         val action = SearchRepositoryFragmentDirections.actionRepositoriesFragmentToRepositoryFragment(repository = repository)
         findNavController().navigate(action)
-    }
-
-    private fun closeKeyboard() {
-        val system = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        system?.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 }
