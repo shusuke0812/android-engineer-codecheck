@@ -1,6 +1,6 @@
 package jp.co.yumemi.android.code_check.repository
 
-import jp.co.yumemi.android.code_check.constant.Constant
+import jp.co.yumemi.android.code_check.utility.constant.Constant
 import jp.co.yumemi.android.code_check.model.SearchResponse
 import jp.co.yumemi.android.code_check.network.GitHubInterface
 import jp.co.yumemi.android.code_check.network.GitHubAPIService
